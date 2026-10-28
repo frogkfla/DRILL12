@@ -52,7 +52,7 @@ class AutoRun:
             0,
             '',
             boy.x,
-            boy.y,
+            boy.y + (self.AUTO_RUN_SIZE - 100) / 2 - 5,
             self.AUTO_RUN_SIZE,
             self.AUTO_RUN_SIZE,
         )
