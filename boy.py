@@ -33,15 +33,12 @@ class AutoRun:
             return
 
         boy.frame = (boy.frame + 1) % 8
-        half_size = self.AUTO_RUN_SIZE / 2
-        min_x = half_size
-        max_x = self.CANVAS_WIDTH - half_size
         next_x = boy.x + boy.face_dir * self.AUTO_RUN_SPEED
-        if next_x <= min_x:
-            boy.x = min_x
+        if next_x <= 0:
+            boy.x = 0
             boy.face_dir = 1
-        elif next_x >= max_x:
-            boy.x = max_x
+        elif next_x >= self.CANVAS_WIDTH:
+            boy.x = self.CANVAS_WIDTH
             boy.face_dir = -1
         else:
             boy.x = next_x
