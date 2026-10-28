@@ -1,4 +1,3 @@
-import math
 import time
 
 from pico2d import (
@@ -7,7 +6,6 @@ from pico2d import (
     SDL_KEYUP,
     SDLK_LEFT,
     SDLK_RIGHT,
-    SDLK_SPACE,
     SDLK_a,
 )
 from transitions import Machine
@@ -70,34 +68,23 @@ class Boy:
         self.auto_run = AutoRun(self)
         self.machine = Machine(
             model=self,
-            states=['IDLE', 'RUN', 'AUTO_RUN', 'SLEEP'],
+            states=['IDLE', 'RUN', 'AUTO_RUN'],
             initial='IDLE',
             auto_transitions=False,
         )
         self.machine.add_transition('start_running', 'IDLE', 'RUN')
-        self.machine.add_transition('start_running', 'SLEEP', 'RUN')
         self.machine.add_transition('start_running', 'AUTO_RUN', 'RUN')
         self.machine.add_transition(
             'start_auto_running', 'IDLE', 'AUTO_RUN', after='start_auto_run'
         )
         self.machine.add_transition(
-            'stop_auto_running', 'AUTO_RUN', 'IDLE', after='reset_idle_timer'
+            'stop_auto_running', 'AUTO_RUN', 'IDLE', after='reset_idle_animation'
         )
-        self.machine.add_transition('stop_running', 'RUN', 'IDLE', after='reset_idle_timer')
-        self.machine.add_transition('go_to_sleep', 'IDLE', 'SLEEP')
-        self.machine.add_transition('wake_up', 'SLEEP', 'IDLE', after='reset_idle_timer')
-        self.idle_started_at = time.monotonic()
+        self.machine.add_transition(
+            'stop_running', 'RUN', 'IDLE', after='reset_idle_animation'
+        )
 
     def handle_event(self, event):
-        if self.state == 'SLEEP':
-            if event.type == SDL_KEYDOWN:
-                if event.key == SDLK_SPACE:
-                    self.wake_up()
-                elif event.key in (SDLK_LEFT, SDLK_RIGHT):
-                    self.face_dir = -1 if event.key == SDLK_LEFT else 1
-                    self.start_running()
-            return
-
         if event.type == SDL_KEYDOWN:
             if self.state == 'IDLE' and event.key == SDLK_a:
                 self.start_auto_running()
@@ -112,15 +99,12 @@ class Boy:
     def start_auto_run(self):
         self.auto_run.enter()
 
-    def reset_idle_timer(self):
-        self.idle_started_at = time.monotonic()
+    def reset_idle_animation(self):
         self.frame = 0
 
     def update(self):
         if self.state == 'IDLE':
             self.frame = (self.frame + 1) % 8
-            if time.monotonic() - self.idle_started_at >= 5:
-                self.go_to_sleep()
         elif self.state == 'RUN':
             self.frame = (self.frame + 1) % 8
             self.x = min(max(self.x + self.face_dir * 5, 50), 750)
@@ -138,9 +122,3 @@ class Boy:
             self.image.clip_draw(self.frame * 100, source_y, 100, 100, self.x, self.y)
         elif self.state == 'AUTO_RUN':
             self.auto_run.draw()
-        elif self.state == 'SLEEP':
-            angle = math.pi / 2 if self.face_dir == 1 else -math.pi / 2
-            source_y = 300 if self.face_dir == 1 else 200
-            self.image.clip_composite_draw(
-                0, source_y, 100, 100, angle, '', self.x, self.y - 30, 100, 100
-            )
