@@ -14,6 +14,9 @@ class AutoRun:
     AUTO_RUN_SPEED = 10
     AUTO_RUN_SIZE = 150
     CANVAS_WIDTH = 800
+    SOURCE_FRAME_SIZE = 100
+    RUN_OPAQUE_X_MIN = 18
+    RUN_OPAQUE_X_END = 84
     DURATION = 5
 
     def __init__(self, boy):
@@ -31,12 +34,16 @@ class AutoRun:
             return
 
         boy.frame = (boy.frame + 1) % 8
+        scale = self.AUTO_RUN_SIZE / self.SOURCE_FRAME_SIZE
+        source_center = self.SOURCE_FRAME_SIZE / 2
+        min_x = (source_center - self.RUN_OPAQUE_X_MIN) * scale
+        max_x = self.CANVAS_WIDTH - (self.RUN_OPAQUE_X_END - source_center) * scale
         next_x = boy.x + boy.face_dir * self.AUTO_RUN_SPEED
-        if next_x <= 0:
-            boy.x = 0
+        if next_x <= min_x:
+            boy.x = min_x
             boy.face_dir = 1
-        elif next_x >= self.CANVAS_WIDTH:
-            boy.x = self.CANVAS_WIDTH
+        elif next_x >= max_x:
+            boy.x = max_x
             boy.face_dir = -1
         else:
             boy.x = next_x
