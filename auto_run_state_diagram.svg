@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="640" viewBox="0 0 1100 640" role="img" aria-labelledby="title description">
+  <title id="title">자동 무적 달리기 상태 다이어그램</title>
+  <desc id="description">IDLE, AUTO_RUN, RUN 상태의 키 입력 및 시간 조건에 따른 전이도</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#465466"/>
+    </marker>
+    <style>
+      text { font-family: "Malgun Gothic", "Noto Sans KR", sans-serif; fill: #202b38; }
+      .title { font-size: 28px; font-weight: 700; }
+      .subtitle { font-size: 15px; fill: #647184; }
+      .state { stroke-width: 2; }
+      .state-name { font-size: 22px; font-weight: 700; }
+      .state-detail { font-size: 14px; fill: #465466; }
+      .edge { fill: none; stroke: #465466; stroke-width: 2.5; marker-end: url(#arrow); }
+      .label { font-size: 15px; font-weight: 600; }
+      .label-bg { fill: #ffffff; stroke: #dce2e9; stroke-width: 1; }
+    </style>
+  </defs>
+
+  <rect width="1100" height="640" fill="#f5f7fa"/>
+  <text class="title" x="550" y="46" text-anchor="middle">자동 무적 달리기 상태 다이어그램</text>
+  <text class="subtitle" x="550" y="74" text-anchor="middle">상태 전이는 입력 또는 시간 조건으로 발생</text>
+
+  <path class="edge" d="M48 280 L105 280"/>
+  <text class="subtitle" x="48" y="258">시작</text>
+
+  <path class="edge" d="M275 260 L435 260"/>
+  <rect class="label-bg" x="318" y="226" width="78" height="27" rx="6"/>
+  <text class="label" x="357" y="245" text-anchor="middle">A 키</text>
+
+  <path class="edge" d="M665 260 L825 260"/>
+  <rect class="label-bg" x="690" y="226" width="111" height="27" rx="6"/>
+  <text class="label" x="745" y="245" text-anchor="middle">방향키 누름</text>
+
+  <path class="edge" d="M190 225 C190 105 910 105 910 225"/>
+  <rect class="label-bg" x="425" y="92" width="270" height="28" rx="6"/>
+  <text class="label" x="560" y="112" text-anchor="middle">IDLE에서 방향키 누름</text>
+
+  <path class="edge" d="M505 222 C470 145 630 145 595 222"/>
+  <rect class="label-bg" x="475" y="136" width="150" height="27" rx="6"/>
+  <text class="label" x="550" y="155" text-anchor="middle">좌우 끝에서 반전</text>
+
+  <path class="edge" d="M480 335 C440 455 220 455 180 335"/>
+  <rect class="label-bg" x="290" y="429" width="120" height="28" rx="6"/>
+  <text class="label" x="350" y="449" text-anchor="middle">5초 경과</text>
+
+  <path class="edge" d="M870 335 C810 555 290 555 230 335"/>
+  <rect class="label-bg" x="420" y="532" width="260" height="28" rx="6"/>
+  <text class="label" x="550" y="552" text-anchor="middle">방향키 뗌</text>
+
+  <rect class="state" x="105" y="225" width="170" height="110" rx="22" fill="#e3f3ea" stroke="#37865b"/>
+  <text class="state-name" x="190" y="270" text-anchor="middle">IDLE</text>
+  <text class="state-detail" x="190" y="298" text-anchor="middle">대기 · 키 입력 대기</text>
+
+  <rect class="state" x="435" y="220" width="230" height="115" rx="22" fill="#fff0d9" stroke="#c77a19"/>
+  <text class="state-name" x="550" y="264" text-anchor="middle">AUTO_RUN</text>
+  <text class="state-detail" x="550" y="291" text-anchor="middle">자동 왕복 · 빠르고 크게 표시</text>
+  <text class="state-detail" x="550" y="314" text-anchor="middle">5초 제한</text>
+
+  <rect class="state" x="825" y="225" width="170" height="110" rx="22" fill="#e5edf8" stroke="#4b6f9d"/>
+  <text class="state-name" x="910" y="270" text-anchor="middle">RUN</text>
+  <text class="state-detail" x="910" y="298" text-anchor="middle">방향키로 이동</text>
+</svg>
